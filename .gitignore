@@ -2,3 +2,4 @@
 .eslintrc.cjs
 babel.config.js
 package*
+*main*
