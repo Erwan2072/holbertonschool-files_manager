@@ -1,40 +1,4 @@
-<<<<<<< HEAD
-Files manager
-=============
-
-*   Master
-*   By: Guillaume, CTO at Holberton School
-*   Weight: 1
-*   Project to be done in teams of 2 people (your team: Florian Vandeville, Erwan Lebreton)
-*   Your score will be updated as you progress.
-*   **Manual QA review must be done** (request it when you are done with the project)
-
-*   [Description](#description)
-
-[Go to tasks](#)
-
-This project is a summary of this back-end trimester: authentication, NodeJS, MongoDB, Redis, pagination and background processing.
-
-The objective is to build a simple platform to upload and view files:
-
-*   User authentication via a token
-*   List all files
-*   Upload a new file
-*   Change permission of a file
-*   View a file
-*   Generate thumbnails for images
-
-You will be guided step by step for building it, but you have some freedoms of implementation, split in more files etc… (`utils` folder will be your friend)
-
-Of course, this kind of service already exists in the real life - it’s a learning purpose to assemble each piece and build a full product.
-
-Enjoy!
-
-Resources
----------
-=======
 ## Resources
->>>>>>> 08f0a32 (print README)
 
 **Read or watch**:
 
@@ -49,12 +13,7 @@ Resources
 *   [Mime-Types](/rltoken/8XNxYl1vPW7AtTuVlUEeeg "Mime-Types")
 *   [Redis](/rltoken/GouXUf7-EedSOcGZWY4lXw "Redis")
 
-<<<<<<< HEAD
-Learning Objectives
--------------------
-=======
 ## Learning Objectives
->>>>>>> 08f0a32 (print README)
 
 At the end of this project, you are expected to be able to [explain to anyone](/rltoken/0AjopwD0JGc3cNQeTOn9aQ "explain to anyone"), **without the help of Google**:
 
@@ -64,12 +23,7 @@ At the end of this project, you are expected to be able to [explain to anyone](/
 *   how to store temporary data in Redis
 *   how to setup and use a background worker
 
-<<<<<<< HEAD
-Requirements
-------------
-=======
 ## Requirements
->>>>>>> 08f0a32 (print README)
 
 *   Allowed editors: `vi`, `vim`, `emacs`, `Visual Studio Code`
 *   All your files will be interpreted/compiled on Ubuntu 20.04 LTS using `node` (version 20.x.x)
@@ -78,140 +32,11 @@ Requirements
 *   Your code should use the `js` extension
 *   Your code will be verified against lint using ESLint
 
-<<<<<<< HEAD
-Provided files
---------------
-
-### `package.json`
-
-Click to show/hide file contents
-
-
-    {
-        "name": "files_manager",
-        "version": "1.0.0",
-        "description": "",
-        "main": "index.js",
-        "scripts": {
-          "lint": "./node_modules/.bin/eslint",
-          "check-lint": "lint [0-9]*.js",
-          "start-server": "nodemon --exec babel-node --presets @babel/preset-env ./server.js",
-          "start-worker": "nodemon --exec babel-node --presets @babel/preset-env ./worker.js",
-          "dev": "nodemon --exec babel-node --presets @babel/preset-env",
-          "test": "./node_modules/.bin/mocha --require @babel/register --exit"
-        },
-        "author": "",
-        "license": "ISC",
-        "dependencies": {
-          "bull": "^3.16.0",
-          "chai-http": "^4.3.0",
-          "express": "^4.17.1",
-          "image-thumbnail": "^1.0.10",
-          "mime-types": "^2.1.27",
-          "mongodb": "^3.5.9",
-          "redis": "^2.8.0",
-          "sha1": "^1.1.1",
-          "uuid": "^8.2.0"
-        },
-        "devDependencies": {
-          "@babel/cli": "^7.8.0",
-          "@babel/core": "^7.8.0",
-          "@babel/node": "^7.8.0",
-          "@babel/preset-env": "^7.8.2",
-          "@babel/register": "^7.8.0",
-          "chai": "^4.2.0",
-          "chai-http": "^4.3.0",
-          "mocha": "^9.0.0",
-          "nodemon": "^2.0.2",
-          "eslint": "^6.8.0",
-          "eslint-config-airbnb-base": "^14.0.0",
-          "eslint-plugin-import": "^2.18.2",
-          "eslint-plugin-jest": "^22.17.0",
-          "request": "^2.88.0",
-          "sinon": "^7.5.0"
-        }
-      }
-
-### `.eslintrc.cjs`
-
-Click to show/hide file contents
-
-
-    module.exports = {
-        env: {
-          browser: false,
-          es6: true,
-          jest: true,
-        },
-        extends: [
-          'airbnb-base',
-          'plugin:jest/all',
-        ],
-        globals: {
-          Atomics: 'readonly',
-          SharedArrayBuffer: 'readonly',
-        },
-        parserOptions: {
-          ecmaVersion: 2018,
-          sourceType: 'module',
-        },
-        plugins: ['jest'],
-        rules: {
-          'max-classes-per-file': 'off',
-          'no-underscore-dangle': 'off',
-          'no-console': 'off',
-          'no-shadow': 'off',
-          'no-restricted-syntax': [
-            'error',
-            'LabeledStatement',
-            'WithStatement',
-          ],
-        },
-        overrides:[
-          {
-            files: ['*.js'],
-            excludedFiles: 'babel.config.js',
-          }
-        ]
-    };
-
-### `babel.config.js`
-
-Click to show/hide file contents
-
-
-    module.exports = {
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: {
-                node: 'current',
-              },
-            },
-          ],
-        ],
-    };
-
-### and…
-
-Don’t forget to run `$ npm install` when you have the `package.json`
-
-Tasks
------
-
-### 0\. Redis utils
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ## Tasks
 
 ### 1.
 
 
->>>>>>> 08f0a32 (print README)
 
 Inside the folder `utils`, create a file `redis.mjs` that contains the class `RedisClient`.
 
@@ -225,41 +50,6 @@ Inside the folder `utils`, create a file `redis.mjs` that contains the class `Re
 *   an asynchronous function `del` that takes a string key as argument and remove the value in Redis for this key
 
 After the class definition, create and export an instance of `RedisClient` called `redisClient`.
-<<<<<<< HEAD
-
-    bob@dylan:~$ cat main.js
-    import redisClient from './utils/redis';
-
-    (async () => {
-        console.log(redisClient.isAlive());
-        console.log(await redisClient.get('myKey'));
-        await redisClient.set('myKey', 12, 5);
-        console.log(await redisClient.get('myKey'));
-
-        setTimeout(async () => {
-            console.log(await redisClient.get('myKey'));
-        }, 1000*10)
-    })();
-
-    bob@dylan:~$ npm run dev main.js
-    true
-    null
-    12
-    null
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/redis.mjs`
-
-### 1\. MongoDB utils
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ cat main.js
 import redisClient from './utils/redis';
@@ -287,7 +77,6 @@ bob@dylan:~$
 ### 2.
 
 
->>>>>>> 08f0a32 (print README)
 
 Inside the folder `utils`, create a file `db.mjs` that contains the class `DBClient`.
 
@@ -302,59 +91,6 @@ Inside the folder `utils`, create a file `db.mjs` that contains the class `DBCli
 *   an asynchronous function `nbFiles` that returns the number of documents in the collection `files`
 
 After the class definition, create and export an instance of `DBClient` called `dbClient`.
-<<<<<<< HEAD
-
-    bob@dylan:~$ cat main.js
-    import dbClient from './utils/db';
-
-    const waitConnection = () => {
-        return new Promise((resolve, reject) => {
-            let i = 0;
-            const repeatFct = async () => {
-                await setTimeout(() => {
-                    i += 1;
-                    if (i >= 10) {
-                        reject()
-                    }
-                    else if(!dbClient.isAlive()) {
-                        repeatFct()
-                    }
-                    else {
-                        resolve()
-                    }
-                }, 1000);
-            };
-            repeatFct();
-        })
-    };
-
-    (async () => {
-        console.log(dbClient.isAlive());
-        await waitConnection();
-        console.log(dbClient.isAlive());
-        console.log(await dbClient.nbUsers());
-        console.log(await dbClient.nbFiles());
-    })();
-
-    bob@dylan:~$ npm run dev main.js
-    false
-    true
-    4
-    30
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/db.mjs`
-
-### 2\. First API
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ cat main.js
 import dbClient from './utils/db';
@@ -400,7 +136,6 @@ bob@dylan:~$
 ### 3.
 
 
->>>>>>> 08f0a32 (print README)
 
 Inside `server.js`, create the Express server:
 
@@ -420,34 +155,6 @@ Inside the folder `controllers`, create a file `AppController.js` that contains 
     *   `files` collection must be used for counting all files
 
 **Terminal 1:**
-<<<<<<< HEAD
-
-    bob@dylan:~$ npm run start-server
-    Server running on port 5000
-    ...
-
-
-**Terminal 2:**
-
-    bob@dylan:~$ curl 0.0.0.0:5000/status ; echo ""
-    {"redis":true,"db":true}
-    bob@dylan:~$
-    bob@dylan:~$ curl 0.0.0.0:5000/stats ; echo ""
-    {"users":4,"files":30}
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `server.js, routes/index.js, controllers/AppController.js`
-
-### 3\. Create a new user
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ npm run start-server
 Server running on port 5000
@@ -467,7 +174,6 @@ bob@dylan:~$
 ### 4.
 
 
->>>>>>> 08f0a32 (print README)
 
 Now that we have a simple API, it’s time to add users to our database.
 
@@ -488,34 +194,6 @@ Inside `controllers`, add a file `UsersController.js` that contains the new endp
 *   The new user must be saved in the collection `users`:
     *   `email`: same as the value received
     *   `password`: `SHA1` value of the value received
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
-    {"id":"5f1e7d35c7ba06511e683b21","email":"bob@dylan.com"}
-    bob@dylan:~$
-    bob@dylan:~$ echo 'db.users.find()' | mongo files_manager
-    { "_id" : ObjectId("5f1e7d35c7ba06511e683b21"), "email" : "bob@dylan.com", "password" : "89cad29e3ebc1035b29b1478a8e70854f25fa2b2" }
-    bob@dylan:~$
-    bob@dylan:~$
-    bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
-    {"error":"Already exist"}
-    bob@dylan:~$
-    bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com" }' ; echo ""
-    {"error":"Missing password"}
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/UsersController.js`
-
-### 4\. Authenticate a user
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
 {"id":"5f1e7d35c7ba06511e683b21","email":"bob@dylan.com"}
@@ -536,7 +214,6 @@ bob@dylan:~$
 ### 5.
 
 
->>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 3 new endpoints:
 
@@ -573,32 +250,6 @@ Inside the file `controllers/UsersController.js` add a new endpoint:
 *   Retrieve the user based on the token:
     *   If not found, return an error `Unauthorized` with a status code 401
     *   Otherwise, return the user object (`email` and `id` only)
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"031bffac-3edc-4e51-aaae-1c121317da8a"}
-    bob@dylan:~$
-    bob@dylan:~$ curl 0.0.0.0:5000/users/me -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
-    {"id":"5f1e7cda04a394508232559d","email":"bob@dylan.com"}
-    bob@dylan:~$
-    bob@dylan:~$ curl 0.0.0.0:5000/disconnect -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
-
-    bob@dylan:~$ curl 0.0.0.0:5000/users/me -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
-    {"error":"Unauthorized"}
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/UsersController.js, controllers/AuthController.js`
-
-### 5\. First file
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"031bffac-3edc-4e51-aaae-1c121317da8a"}
@@ -617,7 +268,6 @@ bob@dylan:~$
 ### 6.
 
 
->>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add a new endpoint:
 
@@ -657,66 +307,6 @@ Inside `controllers`, add a file `FilesController.js` that contains the new endp
         *   `parentId`: same as the value received - if not present: 0
         *   `localPath`: for a `type=file|image`, the absolute path to the file save in local
     *   Return the new file with a status code 201
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPOST 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" -H "Content-Type: application/json" -d '{ "name": "myText.txt", "type": "file", "data": "SGVsbG8gV2Vic3RhY2shCg==" }' ; echo ""
-    {"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0}
-    bob@dylan:~$
-    bob@dylan:~$ ls /tmp/files_manager/
-    2a1f4fc3-687b-491a-a3d2-5808a02942c9
-    bob@dylan:~$
-    bob@dylan:~$ cat /tmp/files_manager/2a1f4fc3-687b-491a-a3d2-5808a02942c9
-    Hello Webstack!
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPOST 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" -H "Content-Type: application/json" -d '{ "name": "images", "type": "folder" }' ; echo ""
-    {"id":"5f1e881cc7ba06511e683b23","userId":"5f1e7cda04a394508232559d","name":"images","type":"folder","isPublic":false,"parentId":0}
-    bob@dylan:~$
-    bob@dylan:~$ cat image_upload.py
-    import base64
-    import requests
-    import sys
-
-    file_path = sys.argv[1]
-    file_name = file_path.split('/')[-1]
-
-    file_encoded = None
-    with open(file_path, "rb") as image_file:
-        file_encoded = base64.b64encode(image_file.read()).decode('utf-8')
-
-    r_json = { 'name': file_name, 'type': 'image', 'isPublic': True, 'data': file_encoded, 'parentId': sys.argv[3] }
-    r_headers = { 'X-Token': sys.argv[2] }
-
-    r = requests.post("http://0.0.0.0:5000/files", json=r_json, headers=r_headers)
-    print(r.json())
-
-    bob@dylan:~$
-    bob@dylan:~$ python image_upload.py image.png f21fb953-16f9-46ed-8d9c-84c6450ec80f 5f1e881cc7ba06511e683b23
-    {'id': '5f1e8896c7ba06511e683b25', 'userId': '5f1e7cda04a394508232559d', 'name': 'image.png', 'type': 'image', 'isPublic': True, 'parentId': '5f1e881cc7ba06511e683b23'}
-    bob@dylan:~$
-    bob@dylan:~$ echo 'db.files.find()' | mongo files_manager
-    { "_id" : ObjectId("5f1e881cc7ba06511e683b23"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "images", "type" : "folder", "parentId" : "0" }
-    { "_id" : ObjectId("5f1e879ec7ba06511e683b22"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "myText.txt", "type" : "file", "parentId" : "0", "isPublic" : false, "localPath" : "/tmp/files_manager/2a1f4fc3-687b-491a-a3d2-5808a02942c9" }
-    { "_id" : ObjectId("5f1e8896c7ba06511e683b25"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "image.png", "type" : "image", "parentId" : ObjectId("5f1e881cc7ba06511e683b23"), "isPublic" : true, "localPath" : "/tmp/files_manager/51997b88-5c42-42c2-901e-e7f4e71bdc47" }
-    bob@dylan:~$
-    bob@dylan:~$ ls /tmp/files_manager/
-    2a1f4fc3-687b-491a-a3d2-5808a02942c9   51997b88-5c42-42c2-901e-e7f4e71bdc47
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/FilesController.js`
-
-### 6\. Get and list file
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -769,7 +359,6 @@ bob@dylan:~$
 ### 7.
 
 
->>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 2 new endpoints:
 
@@ -797,33 +386,6 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
         *   Each page should be 20 items max
         *   `page` query parameter starts at 0 for the first page. If equals to 1, it means it’s the second page (form the 20th to the 40th), etc…
         *   Pagination can be done directly by the `aggregate` of MongoDB
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    [{"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0},{"id":"5f1e881cc7ba06511e683b23","userId":"5f1e7cda04a394508232559d","name":"images","type":"folder","isPublic":false,"parentId":0},{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}]
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files?parentId=5f1e881cc7ba06511e683b23 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    [{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}]
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/FilesController.js`
-
-### 7\. File publish/unpublish
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -843,7 +405,6 @@ bob@dylan:~$
 ### 8.
 
 
->>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 2 new endpoints:
 
@@ -869,33 +430,6 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
 *   Otherwise:
     *   Update the value of `isPublic` to `false`
     *   And return the file document with a status code 200
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":false,"parentId":"5f1e881cc7ba06511e683b23"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/publish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/unpublish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":false,"parentId":"5f1e881cc7ba06511e683b23"}
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/FilesController.js`
-
-### 8\. File data
-
-mandatory
-
-Score: 0.00% (Checks completed: 0.00%)
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -915,7 +449,6 @@ bob@dylan:~$
 ### 9.
 
 
->>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add one new endpoint:
 
@@ -932,38 +465,6 @@ In the file `controllers/FilesController.js`, add the new endpoint:
 *   Otherwise:
     *   By using the module `mime-types`, get the [MIME-type](/rltoken/NQKlVwFc_iSLB9_jkDfF7w "MIME-type") based on the `name` of the file
     *   Return the content of the file with the correct MIME-type
-<<<<<<< HEAD
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/unpublish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    Hello Webstack!
-
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data ; echo ""
-    {"error":"Not found"}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/publish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
-    {"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":true,"parentId":0}
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data ; echo ""
-    Hello Webstack!
-
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, routes/index.js, controllers/FilesController.js`
-
-### 9\. Image Thumbnails
-
-mandatory
-=======
 ```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -988,7 +489,6 @@ bob@dylan:~$
 
 
 ### 10.
->>>>>>> 08f0a32 (print README)
 
 Update the endpoint `POST /files` endpoint to start a background processing for generating thumbnails for a file of type `image`:
 
@@ -1011,38 +511,6 @@ Update the endpoint `GET /files/:id/data` to accept a query parameter `size`:
 *   If the local file doesn’t exist, return an error `Not found` with a status code 404
 
 **Terminal 3:** (start the worker)
-<<<<<<< HEAD
-
-    bob@dylan:~$ npm run start-worker
-    ...
-
-
-**Terminal 2:**
-
-    bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
-    {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
-    bob@dylan:~$
-    bob@dylan:~$ python image_upload.py image.png f21fb953-16f9-46ed-8d9c-84c6450ec80f 5f1e881cc7ba06511e683b23
-    {'id': '5f1e8896c7ba06511e683b25', 'userId': '5f1e7cda04a394508232559d', 'name': 'image.png', 'type': 'image', 'isPublic': True, 'parentId': '5f1e881cc7ba06511e683b23'}
-    bob@dylan:~$ ls /tmp/files_manager/
-    2a1f4fc3-687b-491a-a3d2-5808a02942c9   51997b88-5c42-42c2-901e-e7f4e71bdc47   6dc53397-8491-4b7c-8273-f748b1a031cb   6dc53397-8491-4b7c-8273-f748b1a031cb_100   6dc53397-8491-4b7c-8273-f748b1a031cb_250    6dc53397-8491-4b7c-8273-f748b1a031cb_500
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data -so new_image.png ; file new_image.png
-    new_image.png: PNG image data, 471 x 512, 8-bit/color RGBA, non-interlaced
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=100 -so new_image.png ; file new_image.png
-    new_image.png: PNG image data, 100 x 109, 8-bit/color RGBA, non-interlaced
-    bob@dylan:~$
-    bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=250 -so new_image.png ; file new_image.png
-    new_image.png: PNG image data, 250 x 272, 8-bit/color RGBA, non-interlaced
-    bob@dylan:~$
-
-
-**Repo:**
-
-*   GitHub repository: `holbertonschool-files_manager`
-*   File: `utils/, controllers/FilesController.js, worker.js`
-=======
 ```
 bob@dylan:~$ npm run start-worker
 ...
@@ -1067,8 +535,6 @@ bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=25
 new\_image.png: PNG image data, 250 x 272, 8-bit/color RGBA, non-interlaced
 bob@dylan:~$
 ```
-Author
-
 (Florian Vandeville)[https://github.com/VandevilleF]
 (Erwan Lebreton)[https://github.com/Erwan2072]
->>>>>>> 08f0a32 (print README)
+
