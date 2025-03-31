@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Files manager
 =============
 
@@ -31,6 +32,9 @@ Enjoy!
 
 Resources
 ---------
+=======
+## Resources
+>>>>>>> 08f0a32 (print README)
 
 **Read or watch**:
 
@@ -45,8 +49,12 @@ Resources
 *   [Mime-Types](/rltoken/8XNxYl1vPW7AtTuVlUEeeg "Mime-Types")
 *   [Redis](/rltoken/GouXUf7-EedSOcGZWY4lXw "Redis")
 
+<<<<<<< HEAD
 Learning Objectives
 -------------------
+=======
+## Learning Objectives
+>>>>>>> 08f0a32 (print README)
 
 At the end of this project, you are expected to be able to [explain to anyone](/rltoken/0AjopwD0JGc3cNQeTOn9aQ "explain to anyone"), **without the help of Google**:
 
@@ -56,8 +64,12 @@ At the end of this project, you are expected to be able to [explain to anyone](/
 *   how to store temporary data in Redis
 *   how to setup and use a background worker
 
+<<<<<<< HEAD
 Requirements
 ------------
+=======
+## Requirements
+>>>>>>> 08f0a32 (print README)
 
 *   Allowed editors: `vi`, `vim`, `emacs`, `Visual Studio Code`
 *   All your files will be interpreted/compiled on Ubuntu 20.04 LTS using `node` (version 20.x.x)
@@ -66,6 +78,7 @@ Requirements
 *   Your code should use the `js` extension
 *   Your code will be verified against lint using ESLint
 
+<<<<<<< HEAD
 Provided files
 --------------
 
@@ -192,6 +205,13 @@ Tasks
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+## Tasks
+
+### 1.
+
+
+>>>>>>> 08f0a32 (print README)
 
 Inside the folder `utils`, create a file `redis.mjs` that contains the class `RedisClient`.
 
@@ -205,6 +225,7 @@ Inside the folder `utils`, create a file `redis.mjs` that contains the class `Re
 *   an asynchronous function `del` that takes a string key as argument and remove the value in Redis for this key
 
 After the class definition, create and export an instance of `RedisClient` called `redisClient`.
+<<<<<<< HEAD
 
     bob@dylan:~$ cat main.js
     import redisClient from './utils/redis';
@@ -238,6 +259,35 @@ After the class definition, create and export an instance of `RedisClient` calle
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ cat main.js
+import redisClient from './utils/redis';
+
+(async () => {
+    console.log(redisClient.isAlive());
+    console.log(await redisClient.get('myKey'));
+    await redisClient.set('myKey', 12, 5);
+    console.log(await redisClient.get('myKey'));
+
+    setTimeout(async () => {
+        console.log(await redisClient.get('myKey'));
+    }, 1000\*10)
+})();
+
+bob@dylan:~$ npm run dev main.js
+true
+null
+12
+null
+bob@dylan:~$
+```
+
+
+### 2.
+
+
+>>>>>>> 08f0a32 (print README)
 
 Inside the folder `utils`, create a file `db.mjs` that contains the class `DBClient`.
 
@@ -252,6 +302,7 @@ Inside the folder `utils`, create a file `db.mjs` that contains the class `DBCli
 *   an asynchronous function `nbFiles` that returns the number of documents in the collection `files`
 
 After the class definition, create and export an instance of `DBClient` called `dbClient`.
+<<<<<<< HEAD
 
     bob@dylan:~$ cat main.js
     import dbClient from './utils/db';
@@ -303,6 +354,53 @@ After the class definition, create and export an instance of `DBClient` called `
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ cat main.js
+import dbClient from './utils/db';
+
+const waitConnection = () => {
+    return new Promise((resolve, reject) => {
+        let i = 0;
+        const repeatFct = async () => {
+            await setTimeout(() => {
+                i += 1;
+                if (i >= 10) {
+                    reject()
+                }
+                else if(!dbClient.isAlive()) {
+                    repeatFct()
+                }
+                else {
+                    resolve()
+                }
+            }, 1000);
+        };
+        repeatFct();
+    })
+};
+
+(async () => {
+    console.log(dbClient.isAlive());
+    await waitConnection();
+    console.log(dbClient.isAlive());
+    console.log(await dbClient.nbUsers());
+    console.log(await dbClient.nbFiles());
+})();
+
+bob@dylan:~$ npm run dev main.js
+false
+true
+4
+30
+bob@dylan:~$
+```
+
+
+### 3.
+
+
+>>>>>>> 08f0a32 (print README)
 
 Inside `server.js`, create the Express server:
 
@@ -322,6 +420,7 @@ Inside the folder `controllers`, create a file `AppController.js` that contains 
     *   `files` collection must be used for counting all files
 
 **Terminal 1:**
+<<<<<<< HEAD
 
     bob@dylan:~$ npm run start-server
     Server running on port 5000
@@ -348,6 +447,27 @@ Inside the folder `controllers`, create a file `AppController.js` that contains 
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ npm run start-server
+Server running on port 5000
+...
+```
+**Terminal 2:**
+```
+bob@dylan:~$ curl 0.0.0.0:5000/status ; echo ""
+{"redis":true,"db":true}
+bob@dylan:~$
+bob@dylan:~$ curl 0.0.0.0:5000/stats ; echo ""
+{"users":4,"files":30}
+bob@dylan:~$
+```
+
+
+### 4.
+
+
+>>>>>>> 08f0a32 (print README)
 
 Now that we have a simple API, it’s time to add users to our database.
 
@@ -368,6 +488,7 @@ Inside `controllers`, add a file `UsersController.js` that contains the new endp
 *   The new user must be saved in the collection `users`:
     *   `email`: same as the value received
     *   `password`: `SHA1` value of the value received
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
     {"id":"5f1e7d35c7ba06511e683b21","email":"bob@dylan.com"}
@@ -394,6 +515,28 @@ Inside `controllers`, add a file `UsersController.js` that contains the new endp
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
+{"id":"5f1e7d35c7ba06511e683b21","email":"bob@dylan.com"}
+bob@dylan:~$
+bob@dylan:~$ echo 'db.users.find()' | mongo files\_manager
+{ "\_id" : ObjectId("5f1e7d35c7ba06511e683b21"), "email" : "bob@dylan.com", "password" : "89cad29e3ebc1035b29b1478a8e70854f25fa2b2" }
+bob@dylan:~$
+bob@dylan:~$
+bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
+{"error":"Already exist"}
+bob@dylan:~$
+bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com" }' ; echo ""
+{"error":"Missing password"}
+bob@dylan:~$
+```
+
+
+### 5.
+
+
+>>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 3 new endpoints:
 
@@ -430,6 +573,7 @@ Inside the file `controllers/UsersController.js` add a new endpoint:
 *   Retrieve the user based on the token:
     *   If not found, return an error `Unauthorized` with a status code 401
     *   Otherwise, return the user object (`email` and `id` only)
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
     {"token":"031bffac-3edc-4e51-aaae-1c121317da8a"}
@@ -454,6 +598,26 @@ Inside the file `controllers/UsersController.js` add a new endpoint:
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"031bffac-3edc-4e51-aaae-1c121317da8a"}
+bob@dylan:~$
+bob@dylan:~$ curl 0.0.0.0:5000/users/me -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
+{"id":"5f1e7cda04a394508232559d","email":"bob@dylan.com"}
+bob@dylan:~$
+bob@dylan:~$ curl 0.0.0.0:5000/disconnect -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
+
+bob@dylan:~$ curl 0.0.0.0:5000/users/me -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
+{"error":"Unauthorized"}
+bob@dylan:~$
+```
+
+
+### 6.
+
+
+>>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add a new endpoint:
 
@@ -493,6 +657,7 @@ Inside `controllers`, add a file `FilesController.js` that contains the new endp
         *   `parentId`: same as the value received - if not present: 0
         *   `localPath`: for a `type=file|image`, the absolute path to the file save in local
     *   Return the new file with a status code 201
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
     {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -551,6 +716,60 @@ Inside `controllers`, add a file `FilesController.js` that contains the new endp
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
+bob@dylan:~$
+bob@dylan:~$ curl -XPOST 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" -H "Content-Type: application/json" -d '{ "name": "myText.txt", "type": "file", "data": "SGVsbG8gV2Vic3RhY2shCg==" }' ; echo ""
+{"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0}
+bob@dylan:~$
+bob@dylan:~$ ls /tmp/files\_manager/
+2a1f4fc3-687b-491a-a3d2-5808a02942c9
+bob@dylan:~$
+bob@dylan:~$ cat /tmp/files\_manager/2a1f4fc3-687b-491a-a3d2-5808a02942c9
+Hello Webstack!
+bob@dylan:~$
+bob@dylan:~$ curl -XPOST 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" -H "Content-Type: application/json" -d '{ "name": "images", "type": "folder" }' ; echo ""
+{"id":"5f1e881cc7ba06511e683b23","userId":"5f1e7cda04a394508232559d","name":"images","type":"folder","isPublic":false,"parentId":0}
+bob@dylan:~$
+bob@dylan:~$ cat image\_upload.py
+import base64
+import requests
+import sys
+
+file\_path = sys.argv\[1\]
+file\_name = file\_path.split('/')\[-1\]
+
+file\_encoded = None
+with open(file\_path, "rb") as image\_file:
+    file\_encoded = base64.b64encode(image\_file.read()).decode('utf-8')
+
+r\_json = { 'name': file\_name, 'type': 'image', 'isPublic': True, 'data': file\_encoded, 'parentId': sys.argv\[3\] }
+r\_headers = { 'X-Token': sys.argv\[2\] }
+
+r = requests.post("http://0.0.0.0:5000/files", json=r\_json, headers=r\_headers)
+print(r.json())
+
+bob@dylan:~$
+bob@dylan:~$ python image\_upload.py image.png f21fb953-16f9-46ed-8d9c-84c6450ec80f 5f1e881cc7ba06511e683b23
+{'id': '5f1e8896c7ba06511e683b25', 'userId': '5f1e7cda04a394508232559d', 'name': 'image.png', 'type': 'image', 'isPublic': True, 'parentId': '5f1e881cc7ba06511e683b23'}
+bob@dylan:~$
+bob@dylan:~$ echo 'db.files.find()' | mongo files\_manager
+{ "\_id" : ObjectId("5f1e881cc7ba06511e683b23"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "images", "type" : "folder", "parentId" : "0" }
+{ "\_id" : ObjectId("5f1e879ec7ba06511e683b22"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "myText.txt", "type" : "file", "parentId" : "0", "isPublic" : false, "localPath" : "/tmp/files\_manager/2a1f4fc3-687b-491a-a3d2-5808a02942c9" }
+{ "\_id" : ObjectId("5f1e8896c7ba06511e683b25"), "userId" : ObjectId("5f1e7cda04a394508232559d"), "name" : "image.png", "type" : "image", "parentId" : ObjectId("5f1e881cc7ba06511e683b23"), "isPublic" : true, "localPath" : "/tmp/files\_manager/51997b88-5c42-42c2-901e-e7f4e71bdc47" }
+bob@dylan:~$
+bob@dylan:~$ ls /tmp/files\_manager/
+2a1f4fc3-687b-491a-a3d2-5808a02942c9   51997b88-5c42-42c2-901e-e7f4e71bdc47
+bob@dylan:~$
+```
+
+
+### 7.
+
+
+>>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 2 new endpoints:
 
@@ -578,6 +797,7 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
         *   Each page should be 20 items max
         *   `page` query parameter starts at 0 for the first page. If equals to 1, it means it’s the second page (form the 20th to the 40th), etc…
         *   Pagination can be done directly by the `aggregate` of MongoDB
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
     {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -603,6 +823,27 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+\[{"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0},{"id":"5f1e881cc7ba06511e683b23","userId":"5f1e7cda04a394508232559d","name":"images","type":"folder","isPublic":false,"parentId":0},{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}\]
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files?parentId=5f1e881cc7ba06511e683b23 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+\[{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}\]
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}
+bob@dylan:~$
+```
+
+
+### 8.
+
+
+>>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add 2 new endpoints:
 
@@ -628,6 +869,7 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
 *   Otherwise:
     *   Update the value of `isPublic` to `false`
     *   And return the file document with a status code 200
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
     {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -653,6 +895,27 @@ In the file `controllers/FilesController.js`, add the 2 new endpoints:
 mandatory
 
 Score: 0.00% (Checks completed: 0.00%)
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":false,"parentId":"5f1e881cc7ba06511e683b23"}
+bob@dylan:~$
+bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/publish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}
+bob@dylan:~$
+bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/unpublish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":false,"parentId":"5f1e881cc7ba06511e683b23"}
+bob@dylan:~$
+```
+
+
+### 9.
+
+
+>>>>>>> 08f0a32 (print README)
 
 In the file `routes/index.js`, add one new endpoint:
 
@@ -669,6 +932,7 @@ In the file `controllers/FilesController.js`, add the new endpoint:
 *   Otherwise:
     *   By using the module `mime-types`, get the [MIME-type](/rltoken/NQKlVwFc_iSLB9_jkDfF7w "MIME-type") based on the `name` of the file
     *   Return the content of the file with the correct MIME-type
+<<<<<<< HEAD
 
     bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
     {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
@@ -699,6 +963,32 @@ In the file `controllers/FilesController.js`, add the new endpoint:
 ### 9\. Image Thumbnails
 
 mandatory
+=======
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
+bob@dylan:~$
+bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/unpublish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":false,"parentId":0}
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+Hello Webstack!
+
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data ; echo ""
+{"error":"Not found"}
+bob@dylan:~$
+bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/publish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
+{"id":"5f1e879ec7ba06511e683b22","userId":"5f1e7cda04a394508232559d","name":"myText.txt","type":"file","isPublic":true,"parentId":0}
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data ; echo ""
+Hello Webstack!
+
+bob@dylan:~$
+```
+
+
+### 10.
+>>>>>>> 08f0a32 (print README)
 
 Update the endpoint `POST /files` endpoint to start a background processing for generating thumbnails for a file of type `image`:
 
@@ -721,6 +1011,7 @@ Update the endpoint `GET /files/:id/data` to accept a query parameter `size`:
 *   If the local file doesn’t exist, return an error `Not found` with a status code 404
 
 **Terminal 3:** (start the worker)
+<<<<<<< HEAD
 
     bob@dylan:~$ npm run start-worker
     ...
@@ -751,3 +1042,33 @@ Update the endpoint `GET /files/:id/data` to accept a query parameter `size`:
 
 *   GitHub repository: `holbertonschool-files_manager`
 *   File: `utils/, controllers/FilesController.js, worker.js`
+=======
+```
+bob@dylan:~$ npm run start-worker
+...
+```
+**Terminal 2:**
+```
+bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
+{"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
+bob@dylan:~$
+bob@dylan:~$ python image\_upload.py image.png f21fb953-16f9-46ed-8d9c-84c6450ec80f 5f1e881cc7ba06511e683b23
+{'id': '5f1e8896c7ba06511e683b25', 'userId': '5f1e7cda04a394508232559d', 'name': 'image.png', 'type': 'image', 'isPublic': True, 'parentId': '5f1e881cc7ba06511e683b23'}
+bob@dylan:~$ ls /tmp/files\_manager/
+2a1f4fc3-687b-491a-a3d2-5808a02942c9   51997b88-5c42-42c2-901e-e7f4e71bdc47   6dc53397-8491-4b7c-8273-f748b1a031cb   6dc53397-8491-4b7c-8273-f748b1a031cb\_100   6dc53397-8491-4b7c-8273-f748b1a031cb\_250    6dc53397-8491-4b7c-8273-f748b1a031cb\_500
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data -so new\_image.png ; file new\_image.png
+new\_image.png: PNG image data, 471 x 512, 8-bit/color RGBA, non-interlaced
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=100 -so new\_image.png ; file new\_image.png
+new\_image.png: PNG image data, 100 x 109, 8-bit/color RGBA, non-interlaced
+bob@dylan:~$
+bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=250 -so new\_image.png ; file new\_image.png
+new\_image.png: PNG image data, 250 x 272, 8-bit/color RGBA, non-interlaced
+bob@dylan:~$
+```
+Author
+
+(Florian Vandeville)[https://github.com/VandevilleF]
+(Erwan Lebreton)[https://github.com/Erwan2072]
+>>>>>>> 08f0a32 (print README)
