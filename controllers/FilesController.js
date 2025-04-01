@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
-import { ObjectId } from 'mongodb';
 import redisClient from '../utils/redis';
-import dbClient from '../utils/db';
+import dbClient, { ObjectId } from '../utils/db';
 
 const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
 const validFileTypes = ['folder', 'file', 'image'];
