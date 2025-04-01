@@ -26,10 +26,10 @@ export default class AuthController {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-        // Vérifie que la connexion à MongoDB est bien établie
-        if (!dbClient.isAlive()) {
-          return res.status(500).json({ error: 'Database connection error' });
-      }
+    // Vérifie que la connexion à MongoDB est bien établie
+    if (!dbClient.isAlive()) {
+      return res.status(500).json({ error: 'Database connection error' });
+    }
 
     const hashpwd = sha1(password);
     const usersCollection = dbClient.db.collection('users');
@@ -45,9 +45,8 @@ export default class AuthController {
 
     await redisClient.set(key, userId, 24 * 60 * 60);
 
-    return res.status(200).json({ "token": token });
+    return res.status(200).json({ token: token });
   }
-
   static async getDisconnect (req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
