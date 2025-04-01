@@ -1,6 +1,6 @@
 import sha1 from 'sha1';
-import redisClient from '../utils/redis';
 import { v4 as uuidv4 } from 'uuid';
+import redisClient from '../utils/redis';
 import { dbClient } from '../utils/db';
 
 export default class AuthController {
@@ -47,7 +47,7 @@ export default class AuthController {
 
     return res.status(200).json({ token: token });
   }
-  static async getDisconnect (req, res) {
+  static async getDisconnect(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
     if (!token) {
