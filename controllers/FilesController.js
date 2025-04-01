@@ -1,22 +1,24 @@
 import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
-import redisClient from '../utils/redis.js';
-import dbClient from '../utils/db.js';
 import { ObjectId } from 'mongodb';
+import redisClient from '../utils/redis';
+import dbClient from '../utils/db';
 
 const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
 const validFileTypes = ['folder', 'file', 'image'];
 
 class FilesController {
   static async postUpload(req, res) {
-    const token = req.headers['x-token'];
+    const token = req.headers['X-Token'];
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
     const userId = await redisClient.get(`auth_${token}`);
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
-    const { name, type, parentId = 0, isPublic = false, data } = req.body;
+    const {
+      name, type, parentId = 0, isPublic = false, data,
+    } = req.body;
 
     if (!name) return res.status(400).json({ error: 'Missing name' });
     if (!type || !validFileTypes.includes(type)) {
