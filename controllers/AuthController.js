@@ -45,8 +45,9 @@ export default class AuthController {
 
     await redisClient.set(key, userId, 24 * 60 * 60);
 
-    return res.status(200).json({ token: token });
+    return res.status(200).json({ token });
   }
+
   static async getDisconnect(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
