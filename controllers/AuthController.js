@@ -1,7 +1,7 @@
 import sha1 from 'sha1';
 import redisClient from '../utils/redis';
 import { v4 as uuidv4 } from 'uuid';
-import dbClient from '../utils/db';
+import { dbClient } from '../utils/db';
 
 export default class AuthController {
   static async getConnect(req, res) {
@@ -25,8 +25,14 @@ export default class AuthController {
     if (!email || !password) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+
+        // Vérifie que la connexion à MongoDB est bien établie
+        if (!dbClient.isAlive()) {
+          return res.status(500).json({ error: 'Database connection error' });
+      }
+
     const hashpwd = sha1(password);
-    const usersCollection = await dbClient.db.collection('users');
+    const usersCollection = dbClient.db.collection('users');
     const user = await usersCollection.findOne({ email, password: hashpwd });
 
     if (!user) {
@@ -49,11 +55,12 @@ export default class AuthController {
       res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const key = "auth_" + token;
+    const key = `auth_${token}`;
 
     const user = await redisClient.get(key);
+
     if (!user) {
-      res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
     await redisClient.del(key);
 
