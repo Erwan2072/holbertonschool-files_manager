@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
 import { ObjectId } from 'mongodb';
+import UsersController from '../UsersController';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
@@ -74,6 +75,20 @@ class FilesController {
       isPublic,
       parentId,
     });
+  }
+
+  static async getShow(req, res) {
+    const userData = UsersController.getMe();
+
+    const userFiles = await dbClient.db.collection('files').findOne({ userId: ObjectId(userData) });
+    if (!userFiles) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    return res.status(200).send(userFiles);
+  }
+
+  static async getIndex(req, res) {
+
   }
 }
 
