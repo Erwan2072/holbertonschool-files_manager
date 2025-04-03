@@ -1,9 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
-import { MongoClient, ObjectId } from 'mongodb';
-// Ajouter cette ligne pour créer un alias pour ObjectID
-const ObjectID = ObjectId;
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
