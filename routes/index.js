@@ -4,7 +4,6 @@ import UsersController from '../controllers/UsersController';
 import AuthController from '../controllers/AuthController';
 import AppController from '../controllers/AppController';
 import FilesController from '../controllers/FilesController';
-// import AuthController from '../controllers/AuthController';
 
 const router = express.Router();
 
