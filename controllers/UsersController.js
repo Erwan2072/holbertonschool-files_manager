@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync, readFileSync } from 'fs';
 import path from 'path';
+=======
+// controllers/UsersController.js
+import sha1 from 'sha1';
+import { ObjectId } from 'mongodb';
+import dbClient from '../utils/db';
+>>>>>>> Flo
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 

@@ -32,5 +32,10 @@ class DBClient {
 }
 
 const dbClient = new DBClient();
+<<<<<<< HEAD
 
 export default dbClient;
+=======
+export default dbClient;
+export { ObjectId };
+>>>>>>> Flo
