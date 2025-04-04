@@ -94,7 +94,7 @@ class FilesController {
       const fileId = new ObjectId(req.params.id);
       const userFiles = await dbClient.db.collection('files').findOne({
         _id: fileId,
-        userId: new ObjectId(userId)
+        userId: new ObjectId(userId),
       });
 
       if (!userFiles) {
@@ -166,7 +166,7 @@ class FilesController {
     const fileId = req.params.id;
     const file = await dbClient.db.collection('files').findOne({
       _id: ObjectId(fileId),
-      userId: new ObjectId(userId)
+      userId: new ObjectId(userId),
     });
 
     if (!file) {
@@ -174,6 +174,36 @@ class FilesController {
     }
     // Mise à jour du statut de publication du fichier
     await dbClient.db.collection('files').updateOne({ _id: ObjectId(fileId) }, { $set: { isPublic: true } });
+
+    const updatedFile = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId) });
+    return res.status(200).json(updatedFile);
+  }
+
+  static async putUnpublish(req, res) {
+    const token = req.headers['x-token'] || req.headers['X-Token'];
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const Key = `auth_${token}`;
+    const userId = await redisClient.get(Key);
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const fileId = req.params.id;
+    const file = await dbClient.db.collection('files').findOne({
+      _id: ObjectId(fileId),
+      userId: new ObjectId(userId),
+    });
+
+    if (!file) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    // Mise à jour du statut de publication du fichier à false
+    await dbClient.db.collection('files').updateOne({ _id: ObjectId(fileId) }, { $set: { isPublic: false } });
 
     const updatedFile = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId) });
     return res.status(200).json(updatedFile);

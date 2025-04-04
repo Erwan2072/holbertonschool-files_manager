@@ -15,7 +15,6 @@ export default class AuthController {
 
     let decoded;
     try {
-      // Store and decode base64 data
       decoded = Buffer.from(encoded, 'base64').toString('utf-8');
     } catch (err) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -26,7 +25,6 @@ export default class AuthController {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Vérifie que la connexion à MongoDB est bien établie
     if (!dbClient.isAlive()) {
       return res.status(500).json({ error: 'Database connection error' });
     }
@@ -36,7 +34,7 @@ export default class AuthController {
     const user = await usersCollection.findOne({ email, password: hashpwd });
 
     if (!user) {
-      res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const token = uuidv4();
@@ -52,18 +50,17 @@ export default class AuthController {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
     if (!token) {
-      res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const key = `auth_${token}`;
-
     const user = await redisClient.get(key);
 
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    await redisClient.del(key);
 
+    await redisClient.del(key);
     return res.status(204).send();
   }
 }
