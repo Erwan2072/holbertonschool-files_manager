@@ -1,0 +1,4 @@
+{
+	"require": "@babel/register",
+	"node-option": ["experimental-specifier-resolution=node"]
+  }
