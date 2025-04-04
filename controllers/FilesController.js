@@ -1,7 +1,7 @@
+import { ObjectId } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
-import { ObjectId } from 'mongodb';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
@@ -80,7 +80,7 @@ class FilesController {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
     if (!token) {
-      res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const key = `auth_${token}`;
@@ -90,21 +90,27 @@ class FilesController {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const fileId = new ObjectId(req.params.id);
+    try {
+      const fileId = new ObjectId(req.params.id);
+      const userFiles = await dbClient.db.collection('files').findOne({
+        _id: fileId,
+        userId: new ObjectId(userId)
+      });
 
-    const userFiles = await dbClient.db.collection('files').findOne({ _id: fileId, userId: ObjectId(userId) });
-
-    if (!userFiles) {
+      if (!userFiles) {
+        return res.status(404).json({ error: 'Not found' });
+      }
+      return res.status(200).json(userFiles);
+    } catch (error) {
       return res.status(404).json({ error: 'Not found' });
     }
-    return res.status(200).send(userFiles);
   }
 
   static async getIndex(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
 
     if (!token) {
-      res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const key = `auth_${token}`;
@@ -113,28 +119,30 @@ class FilesController {
     if (!userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+
     // Vérifiez que la connexion à la base de données est établie
     if (!dbClient.isAlive()) {
       console.error('Database connection not available');
       return res.status(500).json({ error: 'Database connection failed' });
     }
 
-    const parentId = req.query.parentId ? new ObjectId(req.query.parentId) : 0;
-    const page = parseInt(req.query.page, 10) || 0;
-    const pageSize = 20;
-
-    const matchResult = { userId: ObjectId(userId) };
-    if (parentId !== 0) {
-      matchResult.parentId = parentId;
-    }
-
     try {
+      const parentId = req.query.parentId ? new ObjectId(req.query.parentId) : 0;
+      const page = parseInt(req.query.page, 10) || 0;
+      const pageSize = 20;
+
+      const matchQuery = { userId: new ObjectId(userId) };
+      if (parentId !== 0) {
+        matchQuery.parentId = parentId;
+      }
+
       // Pagination with aggregate MongoDB
       const files = await dbClient.db.collection('files').aggregate([
-        { $match: matchResult },
+        { $match: matchQuery },
         { $skip: page * pageSize },
         { $limit: pageSize },
       ]).toArray();
+
       return res.status(200).json(files);
     } catch (error) {
       console.error('Database query error:', error);
