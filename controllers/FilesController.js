@@ -6,7 +6,6 @@ import mime from 'mime-types';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
-
 const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
 const validFileTypes = ['folder', 'file', 'image'];
 
