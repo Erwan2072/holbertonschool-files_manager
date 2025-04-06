@@ -1,10 +1,9 @@
 import { ObjectId } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
-import { writeFileSync, mkdirSync } from 'fs';
+import fs, { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
-import fs from 'fs';
 import mime from 'mime-types';
 
 
