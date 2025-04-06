@@ -2,9 +2,10 @@ import { ObjectId } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
 import fs, { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
+import mime from 'mime-types';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
-import mime from 'mime-types';
+
 
 const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
 const validFileTypes = ['folder', 'file', 'image'];
