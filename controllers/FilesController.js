@@ -107,53 +107,34 @@ class FilesController {
     }
   }
 
-  static async getIndex(req, res) {
-    const token = req.headers['x-token'] || req.headers['X-Token'];
-  
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  
-    const key = `auth_${token}`;
-    const userId = await redisClient.get(key);
-  
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  
-    if (!dbClient.isAlive()) {
-      console.error('Database connection not available');
-      return res.status(500).json({ error: 'Database connection failed' });
-    }
-  
-    try {
-      const parentId = req.query.parentId || '0';
-      const page = parseInt(req.query.page, 10) || 0;
-      const pageSize = 20;
-  
-      const matchQuery = { userId: new ObjectId(userId) };
-      if (parentId !== '0') {
-        try {
-          matchQuery.parentId = new ObjectId(parentId);
-        } catch (err) {
-          return res.status(400).json({ error: 'Invalid parentId' });
-        }
-      } else {
-        matchQuery.parentId = 0;
+    // Méthode pour récupérer la liste des fichiers d'un utilisateur
+    static async getIndex(req, res) {
+      const token = req.headers['x-token'];
+      if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
       }
   
-      const files = await dbClient.db.collection('files').aggregate([
-        { $match: matchQuery },
-        { $skip: page * pageSize },
-        { $limit: pageSize },
-      ]).toArray();
+      const tokenKey = `auth_${token}`;
+      const userId = await redisClient.get(tokenKey);
   
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+  
+      const parentId = req.query.parentId || 0;
+      const page = parseInt(req.query.page || '0', 10);
+  
+      let files = await dbClient.getFilesForUser(userId, parentId, page);
+      files = files.map((f) => ({
+        id: f._id,
+        userId: f.userId,
+        name: f.name,
+        type: f.type,
+        isPublic: f.isPublic,
+        parentId: f.parentId,
+      }));
       return res.status(200).json(files);
-    } catch (error) {
-      console.error('Database query error:', error);
-      return res.status(500).json({ error: 'Database query failed' });
     }
-  }
   
   static async putPublish(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
@@ -177,7 +158,7 @@ class FilesController {
     if (!file) {
       return res.status(404).json({ error: 'Not found' });
     }
-    // Mise à jour du statut de publication du fichier
+
     await dbClient.db.collection('files').updateOne({ _id: ObjectId(fileId) }, { $set: { isPublic: true } });
 
     const updatedFile = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId) });
@@ -207,7 +188,6 @@ class FilesController {
       return res.status(404).json({ error: 'Not found' });
     }
 
-    // Mise à jour du statut de publication du fichier à false
     await dbClient.db.collection('files').updateOne({ _id: ObjectId(fileId) }, { $set: { isPublic: false } });
 
     const updatedFile = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId) });
