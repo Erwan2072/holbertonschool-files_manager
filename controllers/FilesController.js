@@ -109,48 +109,52 @@ class FilesController {
 
   static async getIndex(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
-
+  
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-
+  
     const key = `auth_${token}`;
     const userId = await redisClient.get(key);
-
+  
     if (!userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-
-    // Vérifiez que la connexion à la base de données est établie
+  
     if (!dbClient.isAlive()) {
       console.error('Database connection not available');
       return res.status(500).json({ error: 'Database connection failed' });
     }
-
+  
     try {
-      const parentId = req.query.parentId ? new ObjectId(req.query.parentId) : 0;
+      const parentId = req.query.parentId || '0';
       const page = parseInt(req.query.page, 10) || 0;
       const pageSize = 20;
-
+  
       const matchQuery = { userId: new ObjectId(userId) };
-      if (parentId !== 0) {
-        matchQuery.parentId = parentId;
+      if (parentId !== '0') {
+        try {
+          matchQuery.parentId = new ObjectId(parentId);
+        } catch (err) {
+          return res.status(400).json({ error: 'Invalid parentId' });
+        }
+      } else {
+        matchQuery.parentId = 0;
       }
-
-      // Pagination with aggregate MongoDB
+  
       const files = await dbClient.db.collection('files').aggregate([
         { $match: matchQuery },
         { $skip: page * pageSize },
         { $limit: pageSize },
       ]).toArray();
-
+  
       return res.status(200).json(files);
     } catch (error) {
       console.error('Database query error:', error);
       return res.status(500).json({ error: 'Database query failed' });
     }
   }
-
+  
   static async putPublish(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
     if (!token) {
