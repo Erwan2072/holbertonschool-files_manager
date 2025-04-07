@@ -108,50 +108,51 @@ class FilesController {
   }
 
   static async getIndex(req, res) {
+    // Vérification du token
     const token = req.headers['x-token'] || req.headers['X-Token'];
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
+    // Récupération de l'utilisateur basé sur le token
     const userId = await redisClient.get(`auth_${token}`);
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     try {
-      const parentIdParam = req.query.parentId;
+      // Récupération des paramètres de requête
+      const parentId = req.query.parentId || 0; // Par défaut, parentId est 0 (la racine)
       const page = parseInt(req.query.page, 10) || 0;
-      const pageSize = 20;
+      // Préparation du filtre principal
+      const filter = {
+        userId: new ObjectId(userId),
+      };
 
-      // Convertir userId en ObjectId proprement
-      const userObjectId = new ObjectId(userId);
-      const matchQuery = { userId: userObjectId };
-
-      // Gestion correcte du parentId
-      if (!parentIdParam || parentIdParam === '0') {
-        matchQuery.parentId = 0;
+      // Gestion du parentId
+      if (parentId === '0' || parentId === 0) {
+        filter.parentId = 0;
       } else {
         try {
-          matchQuery.parentId = new ObjectId(parentIdParam);
+          filter.parentId = new ObjectId(parentId);
         } catch (err) {
-          return res.status(400).json({ error: 'Invalid parentId' });
+          // Si parentId n'est pas un ObjectId valide, retourner une liste vide
+          return res.status(200).json([]);
         }
       }
 
-      // Pipeline d'agrégation avec pagination
+      // Pipeline d'agrégation pour la pagination
       const pipeline = [
-        { $match: matchQuery },
-        { $skip: page * pageSize },
-        { $limit: pageSize },
+        { $match: filter },
+        { $skip: page * 20 },
+        { $limit: 20 },
       ];
 
-      // Ajouter un timeout pour éviter les requêtes infinies
-      const options = { maxTimeMS: 5000 }; // 5 secondes max pour la requête
-
+      // Exécution de l'agrégation
       const files = await dbClient.db.collection('files')
-        .aggregate(pipeline, options)
+        .aggregate(pipeline)
         .toArray();
 
       return res.status(200).json(files);
     } catch (error) {
-      console.error('Database query error:', error);
-      return res.status(500).json({ error: 'Database query failed' });
+      console.error('Error in getIndex:', error);
+      return res.status(500).json({ error: 'Server error' });
     }
   }
 
