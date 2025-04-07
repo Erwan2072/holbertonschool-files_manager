@@ -109,35 +109,21 @@ class FilesController {
 
   static async getIndex(req, res) {
     const token = req.headers['x-token'] || req.headers['X-Token'];
+    if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    const key = `auth_${token}`;
-    const userId = await redisClient.get(key);
-
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    if (!dbClient.isAlive()) {
-      console.error('Database connection not available');
-      return res.status(500).json({ error: 'Database connection failed' });
-    }
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
     try {
       const parentIdParam = req.query.parentId;
       const page = parseInt(req.query.page, 10) || 0;
       const pageSize = 20;
 
-      const matchQuery = { userId: new ObjectId(userId) };
+      // Convertir userId en ObjectId proprement
+      const userObjectId = new ObjectId(userId);
+      const matchQuery = { userId: userObjectId };
 
-      console.log('getIndex called');
-      console.log('Token:', token);
-      console.log('UserID:', userId);
-      console.log('matchQuery:', matchQuery);
-
+      // Gestion correcte du parentId
       if (!parentIdParam || parentIdParam === '0') {
         matchQuery.parentId = 0;
       } else {
@@ -148,12 +134,19 @@ class FilesController {
         }
       }
 
-      console.log('Running aggregate...');
-      const files = await dbClient.db.collection('files').aggregate([
+      // Pipeline d'agrégation avec pagination
+      const pipeline = [
         { $match: matchQuery },
         { $skip: page * pageSize },
         { $limit: pageSize },
-      ]).toArray();
+      ];
+
+      // Ajouter un timeout pour éviter les requêtes infinies
+      const options = { maxTimeMS: 5000 }; // 5 secondes max pour la requête
+
+      const files = await dbClient.db.collection('files')
+        .aggregate(pipeline, options)
+        .toArray();
 
       return res.status(200).json(files);
     } catch (error) {
