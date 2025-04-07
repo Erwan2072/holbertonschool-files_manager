@@ -133,16 +133,22 @@ class FilesController {
 
       const matchQuery = { userId: new ObjectId(userId) };
 
-      if (parentIdParam && parentIdParam !== '0') {
+      console.log('getIndex called');
+      console.log('Token:', token);
+      console.log('UserID:', userId);
+      console.log('matchQuery:', matchQuery);
+
+      if (!parentIdParam || parentIdParam === '0') {
+        matchQuery.parentId = 0;
+      } else {
         try {
           matchQuery.parentId = new ObjectId(parentIdParam);
         } catch (err) {
           return res.status(400).json({ error: 'Invalid parentId' });
         }
-      } else {
-        matchQuery.parentId = 0;
       }
 
+      console.log('Running aggregate...');
       const files = await dbClient.db.collection('files').aggregate([
         { $match: matchQuery },
         { $skip: page * pageSize },
